@@ -1,0 +1,19 @@
+#============ AntiCreativePvp ============#
+
+# Copyright 2013 Licence LinCraft(?):
+#   http://dev.bukkit.org/licenses/2049-lin-craft-license/ 
+# Color code formatting can be found here:
+#   http://ess.khhq.net/mc/
+
+# AntiCreativePvp - Chat Name/Prefix
+PluginPrefix: '&6[&bAntiCreativePvP&6]'
+
+# Error Messages
+CantHurtPlayerMelee: '&cYou cant hurt any body because ur in creative mode!'
+CantHurtPlayerRanged: '&cYou cant hurt any body with bow/arrows because ur in creative mode!'
+NoPermMessage: '&cYou do not have the permission to use this command'
+NotValidArgs: '&cNot a valid argument'
+PlayerOnlyMessage: '&cThis is a player only command'
+
+# Check for updates?
+UpdateCheck: true

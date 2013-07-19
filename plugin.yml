@@ -1,0 +1,48 @@
+name: AntiCreativePvp
+description: Stops players in creative from pvping
+version: 2.5
+
+main: me.jacklin213.anticreativepvp.ACP
+
+commands:
+  anticreativepvp:
+    description: Main commands, Contains fly, god.
+    aliases: [acp]
+    
+permissions:
+  acp.*:
+    description: Admin node of ACP , bypasses acp and allows god/fly mode
+    default: false
+    children:
+      acp.god: true
+      acp.fly: true
+      acp.bypass.*: true
+      acp.bypass: true
+      acp.bypass.potion: true
+      acp.bypass.bow: true
+  acp.op.*:
+    description: Contains All nodes needed for op
+    default: op
+    children:
+      acp.god: true
+      acp.fly: true
+      acp.reload: true
+  acp.bypass.*:
+    description: Bypasses ACP for all damage types
+    default: false
+    children:
+      acp.bypass: true
+      acp.bypass.potion: true
+      acp.bypass.bow: true
+  acp.god:
+    default: op
+  acp.fly:
+    default: op
+  acp.reload:
+    default: op
+  acp.bypass:
+    default: false
+  acp.bypass.bow:
+    default: false
+  acp.bypass.potion:
+    default: false
