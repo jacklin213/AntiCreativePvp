@@ -27,6 +27,8 @@ public class ACPGModeListener implements Listener {
 		if ((event.getEntity() instanceof Player)) {
 			 Player player = (Player)event.getEntity();
 			 String playerName = player.getName();
+			 double maxHp = player.getMaxHealth();
+			 player.setHealth(maxHp);
 			 if (plugin.godModeEnabled.contains(playerName)){
 				 event.setCancelled(true);
 			 } 

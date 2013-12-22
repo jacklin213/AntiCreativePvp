@@ -1,6 +1,6 @@
 name: AntiCreativePvp
 description: Stops players in creative from pvping
-version: 2.5
+version: 2.6
 
 main: me.jacklin213.anticreativepvp.ACP
 
@@ -16,6 +16,7 @@ permissions:
     children:
       acp.god: true
       acp.fly: true
+      acp.reload: true
       acp.bypass.*: true
       acp.bypass: true
       acp.bypass.potion: true

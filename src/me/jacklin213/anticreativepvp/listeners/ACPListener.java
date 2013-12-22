@@ -12,6 +12,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * AntiCreativePvp (ACP) Player Damage Listener
@@ -60,15 +63,38 @@ public class ACPListener implements Listener {
 			if (((projectile instanceof Arrow))
 					&& ((shooter instanceof Player))) {
 				Player playerShooter = (Player) shooter;
-				if (playerShooter.getGameMode() == GameMode.CREATIVE)
+				if (playerShooter.getGameMode() == GameMode.CREATIVE) {
 					if (playerShooter.hasPermission("acp.bypass.bow")) {
 						event.setCancelled(false);
 					} else {
 						event.setCancelled(true);
 						playerShooter.sendMessage(plugin.MSG.chatPluginPrefix + plugin.MSG.cantHurtPlayerRanged);
 					}
+				}
 			}
 		}
 	}
+	
+	@EventHandler
+	public void onSplashPotionHit(PotionSplashEvent event) {
+		Entity entity = event.getEntity().getShooter();
+		if (entity instanceof Player){
+			Player thrower = (Player) entity;
+			for(PotionEffect potionEffect : event.getPotion().getEffects()) {
+				for (LivingEntity livingEntity : event.getAffectedEntities()){
+					if (potionEffect.getType().equals(PotionEffectType.POISON) && livingEntity instanceof Player){
+						if (thrower.getGameMode() == GameMode.CREATIVE){
+							if (thrower.hasPermission("acp.bypass.potion")){
+								event.setCancelled(false);
+							} else {
+								event.setCancelled(true);
+								thrower.sendMessage(plugin.MSG.chatPluginPrefix + plugin.MSG.cantHurtPlayerPotion);
+							}
+						}
+					}
+				}
+			}
+		}
+	} 
 
 }

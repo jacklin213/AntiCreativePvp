@@ -9,7 +9,9 @@ import me.jacklin213.anticreativepvp.listeners.ACPGModeListener;
 import me.jacklin213.anticreativepvp.listeners.ACPListener;
 import me.jacklin213.anticreativepvp.utils.ACPDataHandler;
 import me.jacklin213.anticreativepvp.utils.MessageHandler;
-import me.jacklin213.anticreativepvp.utils.UpdateChecker;
+import me.jacklin213.anticreativepvp.utils.Updater;
+import me.jacklin213.anticreativepvp.utils.Updater.UpdateResult;
+import me.jacklin213.anticreativepvp.utils.Updater.UpdateType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,19 +29,19 @@ public class ACP extends JavaPlugin  {
 	
 	public static ACP plugin;
 	
-	public Logger log = Logger.getLogger("Minecraft");
+	public Logger log;
 	public ACPListener acpl = new ACPListener(this);
 	public ACPGModeListener acpgml = new ACPGModeListener(this);
 	public ACPFModeListener acpfml = new ACPFModeListener(this);
 	public MessageHandler MSG = new MessageHandler(this);
-	public UpdateChecker updateChecker;
+	public Updater updater;
 	protected ACPDataHandler acpdh;
 	
 	public ArrayList<String> godModeEnabled = new ArrayList<String>();
 	public ArrayList<String> flyModeEnabled = new ArrayList<String>();
 
 	public void onEnable() {
-		
+		this.setLogger();
 		createConfig();
 		String pluginFolder = this.getDataFolder().getAbsolutePath();
 		(new File(pluginFolder)).mkdirs();
@@ -50,28 +52,21 @@ public class ACP extends JavaPlugin  {
 		
 		//Update Check
 		Boolean updateCheck = Boolean.valueOf(getConfig().getBoolean("UpdateCheck"));
-		 
-		this.updateChecker = new UpdateChecker(this, "http://dev.bukkit.org/server-mods/anticreativepvp/files.rss");
-
-		if ((updateCheck) && (this.updateChecker.updateNeeded())) {
-			log.info(String.format("[%s] A new update is avalible, Version: %s", getDescription().getName(), this.updateChecker.getVersion()));
-			log.info(String.format("[%s] Get it now from: %s", getDescription().getName(), this.updateChecker.getLink()));
-		}
+		Boolean autoUpdate = Boolean.valueOf(getConfig().getBoolean("AutoUpdate"));
+		this.updateCheck(updateCheck, autoUpdate, 47121);
 		
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this.acpl, this);
 		pm.registerEvents(this.acpgml, this);
 		pm.registerEvents(this.acpfml, this);
 		
-		log.info(String.format("[%s] Version %s by jacklin213 has been Enabled!",
-				getDescription().getName(), getDescription().getVersion()));
+		log.info(String.format("Version %s by jacklin213 has been Enabled!", getDescription().getVersion()));
 	}
 
 	public void onDisable() {
 		acpdh.saveData();
 		
-		log.info(String.format("[%s] Disabled Version %s", getDescription()
-				.getName(), getDescription().getVersion()));
+		log.info(String.format("Disabled Version %s", getDescription().getVersion()));
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[]){
@@ -86,16 +81,20 @@ public class ACP extends JavaPlugin  {
 					return true;
 				} 
 				if (args[0].equalsIgnoreCase("reload")){
-					reloadConfig();
-					MSG.getMessages();
-					sender.sendMessage(MSG.chatPluginPrefix + ChatColor.GREEN + "Configuration Reloaded!");
-					return true;
+					if (sender.hasPermission("acp.reload")){
+						reloadConfig();
+						MSG.getMessages();
+						sender.sendMessage(MSG.chatPluginPrefix + ChatColor.GREEN + "Configuration Reloaded!");
+						return true;
+					} else {
+						sender.sendMessage(MSG.chatPluginPrefix + MSG.noPermMessage);
+						return true;
+					}
 				}
 				if (args[0].equalsIgnoreCase("help")){
 					MSG.pluginHelp(sender);
 					return true;
-				}
-				else {
+				} else {
 					sender.sendMessage(MSG.notValidArgs);
 					return true;
 				}
@@ -108,13 +107,11 @@ public class ACP extends JavaPlugin  {
 	}
 	
 	public void createConfig(){
-		File configFile = new File(getDataFolder() + File.separator
-				+ "config.yml");
+		File configFile = new File(getDataFolder() + File.separator	+ "config.yml");
 		if (!configFile.exists()) {
 			// Tells console its creating a config.yml
-			this.getLogger().info("Cannot find config.yml, Generating now....");
-			this.getLogger().info("Config generated !");
-			this.getConfig().options().copyDefaults(true);
+			log.info("Cannot find config.yml, Generating now....");
+			log.info("Config generated !");
 			this.saveDefaultConfig();
 		}
 	}
@@ -170,6 +167,34 @@ public class ACP extends JavaPlugin  {
 			sender.sendMessage(MSG.playerOnlyMessage);
 			return;
 		}
+	}
+	
+	private void updateCheck(boolean updateCheck, boolean autoUpdate, int ID){
+		if(updateCheck && (autoUpdate == false)){
+			updater = new Updater(this, ID, this.getFile(), UpdateType.NO_DOWNLOAD, true);
+			if (updater.getResult() == UpdateResult.UPDATE_AVAILABLE) {
+			    log.info("New version available! " + updater.getLatestName());
+			}
+			if (updater.getResult() == UpdateResult.NO_UPDATE){
+				log.info(String.format("You are running the latest version of %s", getDescription().getName()));
+			}
+		}
+		if(autoUpdate && (updateCheck == false)){
+			updater = new Updater(this, ID, this.getFile(), UpdateType.NO_VERSION_CHECK, true);
+		} 
+		if(autoUpdate && updateCheck){
+			updater = new Updater(this, ID, this.getFile(), UpdateType.DEFAULT, true);
+			if (updater.getResult() == UpdateResult.UPDATE_AVAILABLE) {
+			    log.info("New version available! " + updater.getLatestName());
+			}
+			if (updater.getResult() == UpdateResult.NO_UPDATE){
+				log.info(String.format("You are running the latest version of %s", getDescription().getName()));
+			}
+		}
+	}
+	
+	private void setLogger(){
+		log = getLogger();
 	}
 
 }

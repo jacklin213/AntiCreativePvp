@@ -35,6 +35,10 @@ public class MessageHandler {
 	 */
 	public String cantHurtPlayerMelee;
 	/**
+	 * Cannot hurt players in form of potion
+	 */
+	public String cantHurtPlayerPotion;
+	/**
 	 * Cannot Hurt Players in form of Ranged using bow and arrow Message
 	 */
 	public String cantHurtPlayerRanged;
@@ -52,8 +56,13 @@ public class MessageHandler {
 			+ ChatColor.GOLD + "o0" 
 			+ ChatColor.GREEN + "#"
 			);
+	
 	private FileConfiguration config;
 	
+	/**
+	 * Creates an instance of the MessageHandler class
+	 * @param instance - Plugin
+	 */
 	public MessageHandler(ACP instance) {
 		plugin = instance;
 	}
@@ -64,6 +73,7 @@ public class MessageHandler {
 	
 	public void getMessages(){
 		this.getCantHurtPlayerMelee();
+		this.getCantHurtPlayerPotion();
 		this.getCantHurtPlayerRanged();
 		this.getChatPluginPrefix();
 		this.getNoPermMessage();
@@ -76,6 +86,9 @@ public class MessageHandler {
 	private void test(){
 		if (validate(this.cantHurtPlayerMelee) == false){
 			this.logInfo("Error in configuration, please check CantHurtPlayerMelee");
+		}
+		if (validate(this.cantHurtPlayerPotion) == false){
+			this.logInfo("Error in configuration, please check CantHurtPlayerPotion");
 		}
 		if (validate(this.cantHurtPlayerRanged) == false){
 			this.logInfo("Error in configuration, please check CantHurtPlayerRanged");
@@ -158,7 +171,12 @@ public class MessageHandler {
 	
 	private String getCantHurtPlayerMelee(){
 		cantHurtPlayerMelee = ChatColor.translateAlternateColorCodes('&', getConfig().getString("CantHurtPlayerMelee") + " ");
-		return notValidArgs;
+		return cantHurtPlayerMelee;
+	}
+	
+	private String getCantHurtPlayerPotion(){
+		cantHurtPlayerPotion = ChatColor.translateAlternateColorCodes('&', getConfig().getString("CantHurtPlayerPotion") + " ");
+		return cantHurtPlayerPotion;
 	}
 	
 	private String getCantHurtPlayerRanged(){
