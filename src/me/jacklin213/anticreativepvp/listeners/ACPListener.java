@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.projectiles.ProjectileSource;
 
 /**
  * AntiCreativePvp (ACP) Player Damage Listener
@@ -24,7 +25,7 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class ACPListener implements Listener {
 
-	public static ACP plugin;
+	private ACP plugin;
 
 	public ACPListener(ACP instance) {
 		plugin = instance;
@@ -59,7 +60,7 @@ public class ACPListener implements Listener {
 	public void onArrowHit(EntityDamageByEntityEvent event) {
 		if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
 			Projectile projectile = (Projectile) event.getDamager();
-			LivingEntity shooter = projectile.getShooter();
+			 ProjectileSource shooter = projectile.getShooter();
 			if (((projectile instanceof Arrow))
 					&& ((shooter instanceof Player))) {
 				Player playerShooter = (Player) shooter;
@@ -77,7 +78,7 @@ public class ACPListener implements Listener {
 	
 	@EventHandler
 	public void onSplashPotionHit(PotionSplashEvent event) {
-		Entity entity = event.getEntity().getShooter();
+		ProjectileSource entity = event.getEntity().getShooter();
 		if (entity instanceof Player){
 			Player thrower = (Player) entity;
 			for(PotionEffect potionEffect : event.getPotion().getEffects()) {

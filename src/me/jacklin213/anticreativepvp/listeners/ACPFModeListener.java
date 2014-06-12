@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
  */
 public class ACPFModeListener implements Listener {
 	
-	public static ACP plugin;
+	private ACP plugin;
 	
 	public ACPFModeListener(ACP instance){
 		plugin = instance;
@@ -24,8 +24,8 @@ public class ACPFModeListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
 		final Player player = event.getPlayer();
-		String playerName = player.getName();
-		if (plugin.flyModeEnabled.contains(playerName)){
+		String pID = player.getUniqueId().toString();
+		if (plugin.flyModeEnabled.contains(pID)){
 			player.setAllowFlight(true);
 			player.setFlying(true);
 			player.setFlySpeed(0.1F);

@@ -13,7 +13,7 @@ import me.jacklin213.anticreativepvp.ACP;
 
 public class ACPDataHandler {
 	
-	public static ACP plugin;
+	private ACP plugin;
 	
 	private File flyDataFile;
 	private File godDataFile;

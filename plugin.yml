@@ -1,6 +1,6 @@
 name: AntiCreativePvp
 description: Stops players in creative from pvping
-version: 2.6
+version: 2.7
 
 main: me.jacklin213.anticreativepvp.ACP
 

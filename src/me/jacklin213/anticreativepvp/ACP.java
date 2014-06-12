@@ -27,8 +27,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class ACP extends JavaPlugin  {
 	
-	public static ACP plugin;
-	
 	public Logger log;
 	public ACPListener acpl = new ACPListener(this);
 	public ACPGModeListener acpgml = new ACPGModeListener(this);
@@ -120,15 +118,17 @@ public class ACP extends JavaPlugin  {
 	public void godMode(CommandSender sender){
 		if (sender instanceof Player){
 			Player player = (Player) sender;
-			String playerName = player.getName();
+			String pID = player.getUniqueId().toString();
 			if (player.hasPermission("acp.god")){
-				if (this.godModeEnabled.contains(playerName)){
-					this.godModeEnabled.remove(playerName);
+				if (this.godModeEnabled.contains(pID)){
+					this.godModeEnabled.remove(pID);
 					player.sendMessage(MSG.chatPluginPrefix + ChatColor.RED + " Godmode is now Disabled.");
+					acpdh.saveData();
 					return;
 				} else {
-					this.godModeEnabled.add(playerName);
+					this.godModeEnabled.add(pID);
 					player.sendMessage(MSG.chatPluginPrefix + ChatColor.GREEN + " Godmode is now Enabled.");
+					acpdh.saveData();
 					return;
 				}
 			} else {
@@ -144,19 +144,21 @@ public class ACP extends JavaPlugin  {
 	public void flyMode(CommandSender sender){
 		if (sender instanceof Player){
 			Player player = (Player) sender;
-			String playerName = player.getName();
+			String pID = player.getUniqueId().toString();
 			if (player.hasPermission("acp.fly")) {
-				if (this.flyModeEnabled.contains(playerName)){
-					this.flyModeEnabled.remove(playerName);
+				if (this.flyModeEnabled.contains(pID)){
+					this.flyModeEnabled.remove(pID);
 					player.setFlying(false);
 					player.setAllowFlight(false);
 					player.sendMessage(MSG.chatPluginPrefix + ChatColor.RED + " Flymode is now Disabled.");
+					acpdh.saveData();
 					return;
 				} else {
-					this.flyModeEnabled.add(playerName);
+					this.flyModeEnabled.add(pID);
 					player.setAllowFlight(true);
 					player.setFlySpeed(0.1F);
 					player.sendMessage(MSG.chatPluginPrefix + ChatColor.GREEN + " Flymode is now Enabled.");
+					acpdh.saveData();
 					return;
 				}
 			} else {

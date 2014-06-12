@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
  */
 public class ACPGModeListener implements Listener {
 	
-	public static ACP plugin;
+	private ACP plugin;
 	
 	public ACPGModeListener(ACP instance){
 		plugin = instance;
@@ -26,10 +26,10 @@ public class ACPGModeListener implements Listener {
 	public void godMode(EntityDamageEvent event){
 		if ((event.getEntity() instanceof Player)) {
 			 Player player = (Player)event.getEntity();
-			 String playerName = player.getName();
+			 String pID = player.getUniqueId().toString();
 			 double maxHp = player.getMaxHealth();
 			 player.setHealth(maxHp);
-			 if (plugin.godModeEnabled.contains(playerName)){
+			 if (plugin.godModeEnabled.contains(pID)){
 				 event.setCancelled(true);
 			 } 
 		}
@@ -38,8 +38,8 @@ public class ACPGModeListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event){
 		final Player player = event.getPlayer();
-		String playerName = player.getName();
-		if (plugin.godModeEnabled.contains(playerName)){
+		String pID = player.getUniqueId().toString();
+		if (plugin.godModeEnabled.contains(pID)){
 			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
 				  public void run(){
 					  player.sendMessage(plugin.MSG.chatPluginPrefix + ChatColor.GREEN + " Godmode Enabled.");
