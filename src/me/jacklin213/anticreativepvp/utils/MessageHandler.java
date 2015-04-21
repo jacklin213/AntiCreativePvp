@@ -71,7 +71,7 @@ public class MessageHandler {
 	 * Gets all messsages in the config and assign it to the MessageHandler
 	 */
 	
-	public void getMessages(){
+	public void getMessages() {
 		this.getCantHurtPlayerMelee();
 		this.getCantHurtPlayerPotion();
 		this.getCantHurtPlayerRanged();
@@ -83,14 +83,14 @@ public class MessageHandler {
 		this.test();
 	}
 	
-	private void test(){
-		if (validate(this.cantHurtPlayerMelee) == false){
+	private void test() {
+		if (validate(this.cantHurtPlayerMelee) == false) {
 			this.logInfo("Error in configuration, please check CantHurtPlayerMelee");
 		}
-		if (validate(this.cantHurtPlayerPotion) == false){
+		if (validate(this.cantHurtPlayerPotion) == false) {
 			this.logInfo("Error in configuration, please check CantHurtPlayerPotion");
 		}
-		if (validate(this.cantHurtPlayerRanged) == false){
+		if (validate(this.cantHurtPlayerRanged) == false) {
 			this.logInfo("Error in configuration, please check CantHurtPlayerRanged");
 		}
 		if (validate(this.chatPluginPrefix) == false){

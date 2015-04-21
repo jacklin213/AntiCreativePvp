@@ -25,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author jacklin213
  *
  */
-public class ACP extends JavaPlugin  {
+public class ACP extends JavaPlugin {
 	
 	public Logger log;
 	public ACPListener acpl = new ACPListener(this);
@@ -67,19 +67,19 @@ public class ACP extends JavaPlugin  {
 		log.info(String.format("Disabled Version %s", getDescription().getVersion()));
 	}
 
-	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[]){
-		if (commandLabel.equalsIgnoreCase("anticreativepvp") || commandLabel.equalsIgnoreCase("acp")){
-			if (args.length == 1){
-				if (args[0].equalsIgnoreCase("god")){
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[]) {
+		if (commandLabel.equalsIgnoreCase("anticreativepvp") || commandLabel.equalsIgnoreCase("acp")) {
+			if (args.length == 1) {
+				if (args[0].equalsIgnoreCase("god")) {
 					godMode(sender);
 					return true;
 				} 
-				if (args[0].equalsIgnoreCase("fly")){
+				if (args[0].equalsIgnoreCase("fly")) {
 					flyMode(sender);
 					return true;
 				} 
-				if (args[0].equalsIgnoreCase("reload")){
-					if (sender.hasPermission("acp.reload")){
+				if (args[0].equalsIgnoreCase("reload")) {
+					if (sender.hasPermission("acp.reload")) {
 						reloadConfig();
 						MSG.getMessages();
 						sender.sendMessage(MSG.chatPluginPrefix + ChatColor.GREEN + "Configuration Reloaded!");
@@ -89,7 +89,7 @@ public class ACP extends JavaPlugin  {
 						return true;
 					}
 				}
-				if (args[0].equalsIgnoreCase("help")){
+				if (args[0].equalsIgnoreCase("help")) {
 					MSG.pluginHelp(sender);
 					return true;
 				} else {
@@ -104,7 +104,7 @@ public class ACP extends JavaPlugin  {
 		return false;
 	}
 	
-	public void createConfig(){
+	public void createConfig() {
 		File configFile = new File(getDataFolder() + File.separator	+ "config.yml");
 		if (!configFile.exists()) {
 			// Tells console its creating a config.yml
@@ -115,12 +115,12 @@ public class ACP extends JavaPlugin  {
 	}
 	
 	
-	public void godMode(CommandSender sender){
-		if (sender instanceof Player){
+	public void godMode(CommandSender sender) {
+		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			String pID = player.getUniqueId().toString();
-			if (player.hasPermission("acp.god")){
-				if (this.godModeEnabled.contains(pID)){
+			if (player.hasPermission("acp.god")) {
+				if (this.godModeEnabled.contains(pID)) {
 					this.godModeEnabled.remove(pID);
 					player.sendMessage(MSG.chatPluginPrefix + ChatColor.RED + " Godmode is now Disabled.");
 					acpdh.saveData();
@@ -141,12 +141,12 @@ public class ACP extends JavaPlugin  {
 		}
 	}
 	
-	public void flyMode(CommandSender sender){
-		if (sender instanceof Player){
+	public void flyMode(CommandSender sender) {
+		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			String pID = player.getUniqueId().toString();
 			if (player.hasPermission("acp.fly")) {
-				if (this.flyModeEnabled.contains(pID)){
+				if (this.flyModeEnabled.contains(pID)) {
 					this.flyModeEnabled.remove(pID);
 					player.setFlying(false);
 					player.setAllowFlight(false);
@@ -171,31 +171,31 @@ public class ACP extends JavaPlugin  {
 		}
 	}
 	
-	private void updateCheck(boolean updateCheck, boolean autoUpdate, int ID){
-		if(updateCheck && (autoUpdate == false)){
+	private void updateCheck(boolean updateCheck, boolean autoUpdate, int ID) {
+		if(updateCheck && (autoUpdate == false)) {
 			updater = new Updater(this, ID, this.getFile(), UpdateType.NO_DOWNLOAD, true);
 			if (updater.getResult() == UpdateResult.UPDATE_AVAILABLE) {
 			    log.info("New version available! " + updater.getLatestName());
 			}
-			if (updater.getResult() == UpdateResult.NO_UPDATE){
+			if (updater.getResult() == UpdateResult.NO_UPDATE) {
 				log.info(String.format("You are running the latest version of %s", getDescription().getName()));
 			}
 		}
-		if(autoUpdate && (updateCheck == false)){
+		if(autoUpdate && (updateCheck == false)) {
 			updater = new Updater(this, ID, this.getFile(), UpdateType.NO_VERSION_CHECK, true);
 		} 
-		if(autoUpdate && updateCheck){
+		if(autoUpdate && updateCheck) {
 			updater = new Updater(this, ID, this.getFile(), UpdateType.DEFAULT, true);
 			if (updater.getResult() == UpdateResult.UPDATE_AVAILABLE) {
 			    log.info("New version available! " + updater.getLatestName());
 			}
-			if (updater.getResult() == UpdateResult.NO_UPDATE){
+			if (updater.getResult() == UpdateResult.NO_UPDATE) {
 				log.info(String.format("You are running the latest version of %s", getDescription().getName()));
 			}
 		}
 	}
 	
-	private void setLogger(){
+	private void setLogger() {
 		log = getLogger();
 	}
 

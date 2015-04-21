@@ -17,20 +17,20 @@ public class ACPFModeListener implements Listener {
 	
 	private ACP plugin;
 	
-	public ACPFModeListener(ACP instance){
+	public ACPFModeListener(ACP instance) {
 		plugin = instance;
 	}
 	
 	@EventHandler
-	public void onJoin(PlayerJoinEvent event){
+	public void onJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		String pID = player.getUniqueId().toString();
-		if (plugin.flyModeEnabled.contains(pID)){
+		if (plugin.flyModeEnabled.contains(pID)) {
 			player.setAllowFlight(true);
 			player.setFlying(true);
 			player.setFlySpeed(0.1F);
-			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
-				  public void run(){
+			Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+				  public void run() {
 					  player.sendMessage(plugin.MSG.chatPluginPrefix + ChatColor.GREEN + " Flymode Enabled.");
 				  }
 			}, 5);

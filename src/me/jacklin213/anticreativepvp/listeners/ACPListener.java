@@ -61,8 +61,7 @@ public class ACPListener implements Listener {
 		if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
 			Projectile projectile = (Projectile) event.getDamager();
 			 ProjectileSource shooter = projectile.getShooter();
-			if (((projectile instanceof Arrow))
-					&& ((shooter instanceof Player))) {
+			if (((projectile instanceof Arrow))	&& ((shooter instanceof Player))) {
 				Player playerShooter = (Player) shooter;
 				if (playerShooter.getGameMode() == GameMode.CREATIVE) {
 					if (playerShooter.hasPermission("acp.bypass.bow")) {
@@ -82,10 +81,10 @@ public class ACPListener implements Listener {
 		if (entity instanceof Player){
 			Player thrower = (Player) entity;
 			for(PotionEffect potionEffect : event.getPotion().getEffects()) {
-				for (LivingEntity livingEntity : event.getAffectedEntities()){
-					if (potionEffect.getType().equals(PotionEffectType.POISON) && livingEntity instanceof Player){
-						if (thrower.getGameMode() == GameMode.CREATIVE){
-							if (thrower.hasPermission("acp.bypass.potion")){
+				for (LivingEntity livingEntity : event.getAffectedEntities()) {
+					if (potionEffect.getType().equals(PotionEffectType.POISON) && livingEntity instanceof Player) {
+						if (thrower.getGameMode() == GameMode.CREATIVE) {
+							if (thrower.hasPermission("acp.bypass.potion")) {
 								event.setCancelled(false);
 							} else {
 								event.setCancelled(true);

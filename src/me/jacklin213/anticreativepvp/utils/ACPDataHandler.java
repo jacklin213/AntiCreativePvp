@@ -23,7 +23,7 @@ public class ACPDataHandler {
 		this.godDataFile = file2;
 		plugin = instance;
 		
-		if (!(flyDataFile.exists())){
+		if (!(flyDataFile.exists())) {
 			try {
 				this.flyDataFile.createNewFile();
 				plugin.MSG.logInfo("Generating flymode.data file");
@@ -31,7 +31,7 @@ public class ACPDataHandler {
 				e.printStackTrace();
 			}
 		}
-		if (!(godDataFile.exists())){
+		if (!(godDataFile.exists()))  {
 			try {
 				this.godDataFile.createNewFile();
 				plugin.MSG.logInfo("Generating godmode.data file");
@@ -41,17 +41,17 @@ public class ACPDataHandler {
 		}
 	}
 	
-	public void loadData(){
+	public void loadData() {
 		loadGodData();
 		loadFlyData();
 	}
 	
-	public void saveData(){
+	public void saveData() {
 		saveGodData();
 		saveFlyData();
 	}
 	
-	public void loadGodData(){
+	public void loadGodData() {
 		try {
 			//Processes the FileData to the BufferedReader
 			DataInputStream input = new DataInputStream(new FileInputStream(this.godDataFile));
@@ -62,9 +62,9 @@ public class ACPDataHandler {
 			String line;
 			
 			//When the string line is equal to the lines read off the file and does not = 0, repeat method.
-			while ((line = reader.readLine()) != null){
+			while ((line = reader.readLine()) != null) {
 				//If the staffNames ArrayList doesnt contain the name
-				if(plugin.godModeEnabled.contains(line) == false){
+				if(plugin.godModeEnabled.contains(line) == false) {
 					//This adds the name
 					plugin.godModeEnabled.add(line);
 				}
@@ -77,7 +77,7 @@ public class ACPDataHandler {
 		}
 	}
 	
-	public void saveGodData(){
+	public void saveGodData() {
 		try {
 			//Filewriter to write to file
 			FileWriter writer = new FileWriter(this.godDataFile);
@@ -85,7 +85,7 @@ public class ACPDataHandler {
 			BufferedWriter out = new BufferedWriter(writer);
 			
 			//for loop to save all staff names to the file
-			for (String player : plugin.godModeEnabled){
+			for (String player : plugin.godModeEnabled) {
 				out.write(player);
 				out.newLine();
 			}
@@ -98,7 +98,7 @@ public class ACPDataHandler {
 		}
 	}
 	
-	public void loadFlyData(){
+	public void loadFlyData() {
 		try {
 			//Processes the FileData to the BufferedReader
 			DataInputStream input = new DataInputStream(new FileInputStream(this.flyDataFile));
@@ -109,9 +109,9 @@ public class ACPDataHandler {
 			String line;
 			
 			//When the string line is equal to the lines read off the file and does not = 0, repeat method.
-			while ((line = reader.readLine()) != null){
+			while ((line = reader.readLine()) != null) {
 				//If the staffNames ArrayList doesnt contain the name
-				if(plugin.flyModeEnabled.contains(line) == false){
+				if(plugin.flyModeEnabled.contains(line) == false) {
 					//This adds the name
 					plugin.flyModeEnabled.add(line);
 				}
@@ -124,7 +124,7 @@ public class ACPDataHandler {
 		}
 	}
 	
-	public void saveFlyData(){
+	public void saveFlyData() {
 		try {
 			//Filewriter to write to file
 			FileWriter writer = new FileWriter(this.flyDataFile);
@@ -132,7 +132,7 @@ public class ACPDataHandler {
 			BufferedWriter out = new BufferedWriter(writer);
 			
 			//for loop to save all staff names to the file
-			for (String player : plugin.flyModeEnabled){
+			for (String player : plugin.flyModeEnabled) {
 				out.write(player);
 				out.newLine();
 			}
